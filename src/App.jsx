@@ -1,0 +1,28 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import NasaNeoFeed from "./pages/NasaNeoFeedPage";
+import SpaceExploration from "./pages/SpaceExploration";
+import SpaceMission from "./pages/SpaceMission";
+import AllPayloads from "./pages/AllPayloads";
+import Layout from "./components/Layout";
+import ArrangePlanetsGame from "./components/games/ArrangePlanetsGame";
+import CMEPage from "./pages/CMEPage";
+
+function App() {
+  return (
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/sky-patrol" element={<NasaNeoFeed />} />
+          <Route path="/cosmic-explorer" element={<SpaceExploration />} />
+          <Route path="/spacemission" element={<SpaceMission />} />
+          <Route path="/all-payloads" element={<AllPayloads />} />
+          <Route path="/orbit-align" element={<ArrangePlanetsGame />} />
+          <Route path="/solar-surge" element={<CMEPage />} />
+        </Route>
+      </Routes>
+  );
+}
+
+export default App;

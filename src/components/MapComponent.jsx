@@ -1,11 +1,11 @@
 import React from "react";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScriptNext, Marker } from "@react-google-maps/api";
 
 const MapComponent = ({ lat, lng }) => {
   const mapStyles = {
     height: "150px",
     width: "100%",
-    cursor: "pointer", 
+    cursor: "pointer",
   };
 
   const defaultCenter = {
@@ -19,20 +19,19 @@ const MapComponent = ({ lat, lng }) => {
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyBODVkJxALWzkaft_GE0wv2CHyJyE473Uk">
+    <LoadScriptNext googleMapsApiKey="AIzaSyBODVkJxALWzkaft_GE0wv2CHyJyE473Uk">
       <GoogleMap
         mapContainerStyle={mapStyles}
         center={defaultCenter}
         zoom={10}
-        onClick={handleMapClick} // Open Google Maps on click
+        onClick={handleMapClick}
         options={{
-          disableDefaultUI: true, // Hide default UI controls
-          gestureHandling: "none", // Disable map gestures
+          disableDefaultUI: true,
         }}
       >
         <Marker position={defaultCenter} />
       </GoogleMap>
-    </LoadScript>
+    </LoadScriptNext>
   );
 };
 

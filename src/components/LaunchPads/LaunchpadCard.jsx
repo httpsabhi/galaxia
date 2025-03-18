@@ -54,8 +54,11 @@ const LaunchpadCard = ({ launchpad, onReadMore }) => {
             >
               {launchpad.name}
             </Typography>
-            <Typography variant="body2" sx={{ color: "#ddd" }}>
+            <Typography variant="body2" sx={{ color: "#ddd", fontWeight: "bold" }}>
               {launchpad.locality}, {launchpad.region}
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#ddd" }}>
+              <span className="font-semibold leading-0.5">Timezone: </span> {launchpad.timezone}
             </Typography>
             <div className="flex gap-2.5 items-center justify-center">
             <Chip

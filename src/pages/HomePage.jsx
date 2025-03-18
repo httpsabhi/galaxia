@@ -6,14 +6,16 @@ import NasaApodComponent from "../components/NasaApod";
 import Launchpads from "../components/LaunchPads/Launchpads";
 import { ShootingStars } from "../components/ui/shooting-stars";
 import { StarsBackground } from "../components/ui/stars-background";
-import SpaceXPayloads from "../components/SpaceXPayloads";
+import SpaceXPayloads from "../components/Payloads/SpaceXPayloads";
+import Home from "../components/Home";
 
 const HomePage = () => {
   return (
-    <div className="relative min-h-screen bg-black w-full overflow-hidden">
-      <StarsBackground />
-      <ShootingStars />
+    <section className="relative min-h-screen bg-black w-full overflow-hidden">
+      <Home />
       <div className="relative z-10">
+        <StarsBackground />
+        <ShootingStars />
         <section className="container mx-auto p-4 mt-8">
           <NasaApodComponent />
           <SpaceXLaunches />
@@ -21,7 +23,7 @@ const HomePage = () => {
           <SpaceXPayloads />
         </section>
       </div>
-    </div>
+    </section>
   );
 };
 

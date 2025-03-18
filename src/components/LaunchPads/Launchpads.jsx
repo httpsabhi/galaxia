@@ -1,51 +1,51 @@
 import LaunchpadCard from "./LaunchpadCard";
 import LaunchpadModal from "./LaunchpadModal";
-import { useState, useEffect, useCallback } from "react";
-import { Typography, Grid, CircularProgress, Box } from "@mui/material";
-import axios from "axios";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { Typography, Grid, CircularProgress, Box, Backdrop } from "@mui/material";
+import { fetchLaunchpads, fetchLaunchpadById } from "../../lib/launchpadService";
 
 const Launchpads = () => {
   const [launchpads, setLaunchpads] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedLaunchpad, setSelectedLaunchpad] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
 
   useEffect(() => {
-    const fetchLaunchpads = async () => {
+    const getLaunchpads = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        const { data } = await axios.get(
-          "https://api.spacexdata.com/v4/launchpads"
-        );
+        const data = await fetchLaunchpads();
         setLaunchpads(data);
       } catch (error) {
-        console.error("Error fetching launchpad data:", error);
+        setError(error.message);
       } finally {
         setLoading(false);
       }
     };
-    fetchLaunchpads();
+    getLaunchpads();
   }, []);
+
+  // Memoize launchpads to prevent unnecessary re-renders
+  const launchpadList = useMemo(() => launchpads, [launchpads]);
 
   // Open Modal and Fetch Detailed Data
   const handleOpenModal = useCallback(async (id) => {
     setModalLoading(true);
     setSelectedLaunchpad(null);
     try {
-      const { data } = await axios.get(
-        `https://api.spacexdata.com/v4/launchpads/${id}`
-      );
+      const data = await fetchLaunchpadById(id);
       setSelectedLaunchpad(data);
     } catch (error) {
-      console.error("Error fetching launchpad details:", error);
+      console.error(error.message);
     } finally {
       setModalLoading(false);
     }
   }, []);
 
   return (
-    <Box
-      sx={{ padding: 3, maxWidth: "90vw", margin: "auto", textAlign: "center" }}
-    >
+    <Box sx={{ padding: 3, maxWidth: "90vw", margin: "auto", textAlign: "center" }}>
       <Typography
         variant="h4"
         gutterBottom
@@ -54,29 +54,42 @@ const Launchpads = () => {
           marginBottom: 3,
           color: "white",
           textShadow: "2px 2px 10px rgba(255,255,255,0.3)",
+          animation: "fadeIn 0.5s ease-in-out",
         }}
       >
         🚀 SpaceX Launchpads
       </Typography>
 
-      {loading ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="30vh"
-        >
-          <CircularProgress size={50} sx={{ color: "#ffffff" }} />
+      {/* Fullscreen Backdrop Loader */}
+      <Backdrop open={loading} sx={{ color: "#fff", zIndex: 9999 }}>
+        <CircularProgress size={60} />
+      </Backdrop>
+
+      {/* Error Handling */}
+      {error && (
+        <Box display="flex" justifyContent="center" alignItems="center" height="30vh">
+          <Typography color="error" variant="h6">
+            {error}
+          </Typography>
         </Box>
-      ) : (
+      )}
+
+      {/* Launchpads Grid */}
+      {!loading && !error && (
         <Grid container spacing={4} justifyContent="center">
-          {launchpads.map((launchpad) => (
-            <LaunchpadCard
-              key={launchpad.id}
-              launchpad={launchpad}
-              onReadMore={handleOpenModal}
-            />
-          ))}
+          {launchpadList.length > 0 ? (
+            launchpadList.map((launchpad) => (
+              <LaunchpadCard
+                key={launchpad.id}
+                launchpad={launchpad}
+                onReadMore={handleOpenModal}
+              />
+            ))
+          ) : (
+            <Typography color="white" variant="h6">
+              No launchpads available.
+            </Typography>
+          )}
         </Grid>
       )}
 

@@ -9,7 +9,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen bg-black">
       {isHeaderVisible && <Header />}
-      <main className={`pt-${isHeaderVisible ? "20" : "0"}`}>
+      <main className={`${isHeaderVisible ? "pt-20" : "pt-0"}`}>
         <Outlet />
       </main>
     </div>

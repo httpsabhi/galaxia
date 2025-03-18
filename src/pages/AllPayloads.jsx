@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PayloadCard from "../components/PayloadCard";
+import PayloadCard from "../components/Payloads/PayloadCard";
 
 const AllPayloads = () => {
   const [payloads, setPayloads] = useState([]);

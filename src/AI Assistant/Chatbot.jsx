@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { spaceKeywords } from "./spaceKeywords.js"; 
+import { spaceKeywords } from "./spaceKeywords.js";
 
 const Chatbot = () => {
   const [query, setQuery] = useState("");
-  const [messages, setMessages] = useState([]); 
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
 
   async function generateResponse() {
     if (!query) return;
@@ -25,8 +25,8 @@ const Chatbot = () => {
     }
 
     setLoading(true);
-    setMessages((prev) => [...prev, { text: query, sender: "user" }]); 
-    setQuery(""); 
+    setMessages((prev) => [...prev, { text: query, sender: "user" }]);
+    setQuery("");
 
     try {
       const res = await axios({
@@ -40,7 +40,7 @@ const Chatbot = () => {
       const botReply =
         res.data.candidates?.[0]?.content?.parts?.[0]?.text ||
         "I couldn't find an answer.";
-      setMessages((prev) => [...prev, { text: botReply, sender: "bot" }]); 
+      setMessages((prev) => [...prev, { text: botReply, sender: "bot" }]);
     } catch (error) {
       console.error("Error fetching response:", error);
       setMessages((prev) => [
@@ -54,14 +54,20 @@ const Chatbot = () => {
 
   return (
     <div className="fixed font-mono bottom-6 right-6 z-50">
-      {/* Chat Icon */}
+      {/* Chat Icon with Tooltip */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-transform transform hover:scale-110"
-        >
-          🧑‍🚀
-        </button>
+        <div className="relative group">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="bg-blue-500 hover:bg-blue-600 text-2xl text-white p-5 rounded-full shadow-lg transition-transform transform hover:scale-110"
+          >
+            🧑‍🚀
+          </button>
+          {/* Tooltip */}
+          <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-sm px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
+            Spacebot
+          </div>
+        </div>
       )}
 
       {/* Chat Pop-Up */}

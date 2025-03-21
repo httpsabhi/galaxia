@@ -7,6 +7,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const[visible, setVisible] = useState("Ask anything related to space ")
 
   async function generateResponse() {
     if (!query) return;
@@ -52,6 +53,12 @@ const Chatbot = () => {
     setLoading(false);
   }
 
+  const removeText = () => {
+    setVisible("")
+  }
+
+
+
   return (
     <div className="fixed font-mono bottom-6 right-6 z-50">
       {/* Chat Icon with Tooltip */}
@@ -69,6 +76,7 @@ const Chatbot = () => {
           </div>
         </div>
       )}
+      
 
       {/* Chat Pop-Up */}
       {isOpen && (
@@ -110,7 +118,11 @@ const Chatbot = () => {
               </div>
             )}
           </div>
-
+          <div  className="bg-white">
+            <h1 className="font-semibold text-center">
+                  {visible}
+            </h1> 
+          </div>
           {/* Chat Input */}
           <div className="p-4 bg-gray-900 rounded-b-lg">
             <div className="flex space-x-2">
@@ -123,7 +135,11 @@ const Chatbot = () => {
                 placeholder="Ask me about space..."
               />
               <button
-                onClick={generateResponse}
+                 onClick={()=>{
+                    generateResponse();
+                    removeText()
+                 } 
+                  }
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
                 disabled={loading}
               >

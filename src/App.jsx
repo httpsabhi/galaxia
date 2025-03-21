@@ -8,6 +8,7 @@ import AllPayloads from "./pages/AllPayloads";
 import Layout from "./components/Layout";
 import ArrangePlanetsGame from "./components/games/ArrangePlanetsGame";
 import CMEPage from "./pages/CMEPage";
+import Chatbot from "./AI Assistant/Chatbot";
 
 function App() {
   return (

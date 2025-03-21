@@ -41,6 +41,12 @@ const Header = () => {
           >
             Solar Surge
           </a>
+          <a
+            href="/chat-bot"
+            className="text-white text-lg hover:text-blue-300 transition"
+          >
+            AI Chatbot
+          </a>
         </nav>
 
         {/* Hamburger Icon (Mobile) */}

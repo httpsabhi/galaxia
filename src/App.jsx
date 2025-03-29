@@ -7,6 +7,7 @@ import SpaceMission from "./pages/SpaceMission";
 import AllPayloads from "./pages/AllPayloads";
 import Layout from "./components/Layout";
 import ArrangePlanetsGame from "./components/games/ArrangePlanetsGame";
+import CosmicQuiz from "./components/games/CosmicQuiz";
 import CMEPage from "./pages/CMEPage";
 import IssTrackerPage from "./pages/IssTrackerPage";
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/spacemission" element={<SpaceMission />} />
           <Route path="/all-payloads" element={<AllPayloads />} />
           <Route path="/orbit-align" element={<ArrangePlanetsGame />} />
+          <Route path="/cosmic-quiz" element={<CosmicQuiz />} />
           <Route path="/solar-surge" element={<CMEPage />} />
           <Route path="/iss-tracker" element={<IssTrackerPage />} />
         </Route>

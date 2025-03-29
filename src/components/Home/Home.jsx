@@ -78,7 +78,7 @@ const Home = () => {
   const games = [
     { name: "Orbit Align", url: "/orbit-align" },
     { name: "Star Match", url: "#" },
-    { name: "Cosmic Quiz", url: "#" },
+    { name: "Cosmic Quiz", url: "/cosmic-quiz" },
     { name: "Planet Hop", url: "#" }
   ];
 

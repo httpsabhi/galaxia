@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
-import NasaNeoFeed from "./pages/NasaNeoFeedPage";
+import NasaNeoFeedPage from "./pages/NasaNeoFeedPage";
 import SpaceExploration from "./pages/SpaceExploration";
 import SpaceMission from "./pages/SpaceMission";
 import AllPayloads from "./pages/AllPayloads";
@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="/sky-patrol" element={<NasaNeoFeed />} />
+          <Route path="/sky-patrol" element={<NasaNeoFeedPage />} />
           <Route path="/cosmic-explorer" element={<SpaceExploration />} />
           <Route path="/spacemission" element={<SpaceMission />} />
           <Route path="/all-payloads" element={<AllPayloads />} />

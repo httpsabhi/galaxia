@@ -41,6 +41,7 @@ const Header = () => {
           >
             Solar Surge
           </a>
+         
         </nav>
 
         {/* Hamburger Icon (Mobile) */}

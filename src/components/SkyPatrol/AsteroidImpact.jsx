@@ -3,7 +3,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { FiAlertTriangle, FiCheckCircle, FiInfo } from "react-icons/fi";
 
-const API_URL = "http://localhost:8000/predict_impact";
+const API_URL = "https://galaxia-2430.onrender.com/predict_impact";
 
 const AsteroidImpact = () => {
   const [formData, setFormData] = useState({
@@ -203,7 +203,7 @@ const AsteroidImpact = () => {
                 {result.impact_risk === 1 ? <FiAlertTriangle /> : <FiCheckCircle />}
               </div>
               <div>
-                <h3 className="font-bold text-lg">
+                <h3 className="font-bold text-lg text-white">
                   {result.impact_risk === 1 
                     ? "Potential Impact Detected!" 
                     : "No Immediate Threat"}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { GenAI } from "../../lib/genai";
 import { FiRefreshCw, FiInfo } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaAngleLeft } from "react-icons/fa";
 
 export default function SpaceFacts() {
   const [spaceFact, setSpaceFact] = useState("");
@@ -32,6 +33,7 @@ export default function SpaceFacts() {
 
   return (
     <div className="mb-8 relative">
+       
       <div className="flex items-center justify-between mb-2">
         <h4 className="text-sm font-semibold text-gray-400 flex items-center">
           Did You Know?

@@ -13,7 +13,7 @@ export const spaceKeywords = [
     "stellar evolution", "gravity assist", "cosmic radiation", "stellar spectroscopy",
     "lunar gateway", "rocket science", "plasma propulsion", "solar sail",
     "space debris", "satellite constellation", "planetary transits", "exoplanet detection",
-    "astrocartography", "space tourism", "future space missions", "astroengineering"
+    "astrocartography", "space tourism", "future space missions", "astroengineering","super nova"
   ];
   
 

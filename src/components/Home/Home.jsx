@@ -202,7 +202,7 @@ const Home = () => {
         transition={{ duration: 1 }}
         className="w-72 bg-gray-900 bg-opacity-50 border-r border-gray-800 p-6 flex flex-col z-20"
       >
-        {/* New Beautiful Cosmic Feature */}
+        {/* Enhanced Galactic Navigator */}
         <motion.div 
           className="relative w-full h-40 mb-8 rounded-xl overflow-hidden"
           initial={{ opacity: 0 }}
@@ -210,7 +210,14 @@ const Home = () => {
           transition={{ delay: 0.5 }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-black/50 backdrop-blur-sm"></div>
-          <div className="absolute inset-0 flex items-center justify-center">
+          
+          {/* Solar System Model */}
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1, delay: 0.7 }}
+          >
             <motion.div
               className="relative w-24 h-24"
               animate={{
@@ -222,47 +229,106 @@ const Home = () => {
                 ease: "linear"
               }}
             >
-              {[...Array(8)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-2 h-2 bg-white rounded-full"
-                  style={{
-                    left: `${Math.cos((i * Math.PI) / 4) * 30 + 44}px`,
-                    top: `${Math.sin((i * Math.PI) / 4) * 30 + 44}px`,
-                  }}
-                  animate={{
-                    scale: [1, 1.5, 1],
-                    opacity: [0.7, 1, 0.7]
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: i * 0.2
-                  }}
-                />
-              ))}
+              {/* Sun */}
               <motion.div
                 className="absolute w-8 h-8 bg-yellow-300 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 animate={{
-                  scale: [1, 1.1, 1]
+                  scale: [1, 1.05, 1],
+                  boxShadow: [
+                    "0 0 20px 5px rgba(255, 200, 50, 0.5)",
+                    "0 0 30px 10px rgba(255, 200, 50, 0.7)",
+                    "0 0 20px 5px rgba(255, 200, 50, 0.5)"
+                  ]
                 }}
                 transition={{
                   duration: 5,
                   repeat: Infinity
                 }}
               />
+              
+              {/* Planets */}
+              {[
+                { size: 2, color: "bg-gray-400", distance: 12, duration: 5 },
+                { size: 3, color: "bg-yellow-200", distance: 18, duration: 8 },
+                { size: 2.5, color: "bg-blue-400", distance: 24, duration: 12 },
+                { size: 2, color: "bg-red-400", distance: 30, duration: 20 }
+              ].map((planet, i) => (
+                <motion.div
+                  key={i}
+                  className={`absolute ${planet.color} rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+                  style={{
+                    width: `${planet.size * 4}px`,
+                    height: `${planet.size * 4}px`,
+                  }}
+                  animate={{
+                    x: Math.cos((i * Math.PI * 2) / 4) * planet.distance,
+                    y: Math.sin((i * Math.PI * 2) / 4) * planet.distance
+                  }}
+                  transition={{
+                    duration: planet.duration,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  {/* Moons for some planets */}
+                  {i > 0 && i < 3 && (
+                    <motion.div
+                      className="absolute bg-gray-200 rounded-full"
+                      style={{
+                        width: `${planet.size}px`,
+                        height: `${planet.size}px`,
+                        top: `${planet.size * 1.5}px`,
+                        left: `${planet.size * 1.5}px`
+                      }}
+                      animate={{
+                        x: Math.cos(i * 2) * planet.size * 2,
+                        y: Math.sin(i * 2) * planet.size * 2
+                      }}
+                      transition={{
+                        duration: planet.duration / 2,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    />
+                  )}
+                </motion.div>
+              ))}
+              
+              {/* Asteroid Belt */}
+              <motion.div
+                className="absolute border border-gray-600 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  width: "48px",
+                  height: "48px"
+                }}
+                animate={{
+                  rotate: 360
+                }}
+                transition={{
+                  duration: 40,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
             </motion.div>
-          </div>
-          <div className="absolute bottom-4 left-0 right-0 text-center text-xs text-gray-300">
-            Galactic Navigator
-          </div>
+          </motion.div>
+          
+          {/* Title with better positioning */}
+          <motion.div
+            className="absolute bottom-4 left-0 right-0 text-center"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1, duration: 0.5 }}
+          >
+            <motion.div
+              className="w-16 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto mt-1"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 1.2, duration: 0.5 }}
+            />
+          </motion.div>
         </motion.div>
 
-        <h3 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-          Galaxia Overview
-        </h3>
-        
-        {/* Space Fact of the Day */}
         <SpaceFacts/>
         <RecentEvents />
         
@@ -394,7 +460,6 @@ const Home = () => {
               onMouseEnter={() => {
                 if (star.name) {
                   setActiveSupernova(star.name);
-                  // Trigger nearby stars to twinkle more
                   setHoveredStar(star.id);
                 }
               }}

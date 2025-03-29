@@ -9,6 +9,7 @@ import Layout from "./components/Layout";
 import ArrangePlanetsGame from "./components/games/ArrangePlanetsGame";
 import CosmicQuiz from "./components/games/CosmicQuiz";
 import StarMatch from './components/games/StarMatch';
+import NebulaEscape from './components/games/NebulaEscape';
 import CMEPage from "./pages/CMEPage";
 import IssTrackerPage from "./pages/IssTrackerPage";
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/orbit-align" element={<ArrangePlanetsGame />} />
           <Route path="/cosmic-quiz" element={<CosmicQuiz />} />
           <Route path="/star-match" element={<StarMatch />} /> 
+          <Route path="/nebula-escape" element={<NebulaEscape />} />
           <Route path="/solar-surge" element={<CMEPage />} />
           <Route path="/iss-tracker" element={<IssTrackerPage />} />
         </Route>

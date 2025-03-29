@@ -78,7 +78,7 @@ const PayloadCard = ({ payload, showNationalities = false }) => {
       <div className="mt-4">
         <motion.button
           onClick={openModal}
-          className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+          className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >

@@ -5,7 +5,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full bg-black/10 backdrop-blur-lg shadow-lg z-60 px-5">
+    <header className="fixed top-0 left-0 w-full bg-black/10 backdrop-blur-lg shadow-lg z-70 px-5">
       <div className="container mx-auto flex justify-between items-center p-4">
           <img src="/header.png" alt="" className="w-20" />
 
@@ -18,10 +18,10 @@ const Header = () => {
             Home
           </a>
           <a
-            href="/all-payloads"
+            href="/iss-tracker"
             className="text-white text-lg hover:text-blue-300 transition"
           >
-            Payloads
+            ISS Tracker
           </a>
           <a
             href="/sky-patrol"

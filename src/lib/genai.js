@@ -13,3 +13,4 @@ export const GenAI = async (prompt) => {
         return null;
     }
 }
+

@@ -82,14 +82,6 @@ const Home = () => {
     { name: "Planet Hop", url: "#" }
   ];
 
-  // Sidebar features
-  const spaceFacts = [
-    "The Sun accounts for 99.86% of the mass in our solar system",
-    "There are more stars in the universe than grains of sand on Earth",
-    "A day on Venus is longer than its year",
-    "Neptune has the strongest winds in the solar system"
-  ];
-
   return (
     <div className="relative h-screen w-full bg-black overflow-hidden flex text-white">
       {/* Sidebar with cosmic features */}

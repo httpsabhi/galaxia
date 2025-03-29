@@ -8,6 +8,7 @@ import { ShootingStars } from "../components/ui/shooting-stars";
 import { StarsBackground } from "../components/ui/stars-background";
 import SpaceXPayloads from "../components/Payloads/SpaceXPayloads";
 import Home from "../components/Home/Home";
+import SpaceNewsSlider from "../components/SpaceNewsSlider";
 
 const HomePage = () => {
   return (
@@ -17,6 +18,7 @@ const HomePage = () => {
         <StarsBackground />
         <ShootingStars />
         <section className="container mx-auto p-4 mt-8">
+          <SpaceNewsSlider />
           <NasaApodComponent />
           <SpaceXLaunches />
           <Launchpads />

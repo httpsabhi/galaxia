@@ -5,6 +5,7 @@ import SpaceFacts from "./SpaceFacts";
 const Home = () => {
   const [activeSupernova, setActiveSupernova] = useState(null);
   const [showGameZone, setShowGameZone] = useState(false);
+  
 
   // Star generation
   const generateStars = (count, config = {}) => {

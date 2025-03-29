@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import SpaceFacts from "./SpaceFacts";
+import RecentEvents from "./RecentEvents";
 
 const Home = () => {
   const [activeSupernova, setActiveSupernova] = useState(null);
@@ -93,24 +94,12 @@ const Home = () => {
         className="w-72 bg-gray-900 bg-opacity-50 border-r border-gray-800 p-6 flex flex-col z-20"
       >
         <h3 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-          Galaxia Dashboard
+          Galaxia Overview
         </h3>
         
         {/* Space Fact of the Day */}
         <SpaceFacts/>
-        
-        {/* Recent Cosmic Events */}
-        <div className="mb-8">
-          <h4 className="text-sm font-semibold mb-2 text-gray-400">Recent Events</h4>
-          <div className="space-y-3">
-            {["Meteor Shower Peak", "Jupiter Opposition", "New Moon Phase"].map((event, i) => (
-              <div key={i} className="flex items-center space-x-3 p-2 hover:bg-gray-800 rounded-lg cursor-pointer">
-                <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                <span className="text-sm">{event}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <RecentEvents />
         
         {/* Quick Links */}
         <div>

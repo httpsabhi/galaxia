@@ -150,8 +150,8 @@ const Home = () => {
       bg: "bg-gradient-to-br from-indigo-800 to-blue-900"
     },
     { 
-      name: "Constellation Detector", 
-      url: "#",
+      name: "Nebula Escape", 
+      url: "nebula-escape",
       icon: (
         <motion.svg 
           viewBox="0 0 24 24" 

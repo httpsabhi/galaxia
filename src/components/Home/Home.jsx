@@ -78,9 +78,9 @@ const Home = () => {
   // Game Zone games
   const games = [
     { name: "Orbit Align", url: "/orbit-align" },
-    { name: "Star Match", url: "#" },
+    { name: "Star Match", url: "/star-match" },
     { name: "Cosmic Quiz", url: "/cosmic-quiz" },
-    { name: "Planet Hop", url: "#" }
+    { name: "Constellation Connect", url: "#" }
   ];
 
   return (

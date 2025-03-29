@@ -358,7 +358,7 @@ const Home = () => {
         >
           <h1 className="text-7xl font-bold mb-4">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-400 to-pink-300">
-              Cosmic Explorer
+              Galaxia
             </span>
           </h1>
           <motion.p

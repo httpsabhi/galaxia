@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import SpaceFacts from "./SpaceFacts";
 
 const Home = () => {
   const [activeSupernova, setActiveSupernova] = useState(null);
@@ -75,7 +76,7 @@ const Home = () => {
 
   // Game Zone games
   const games = [
-    { name: "Orbit Align", url: "http://localhost:5173/orbit-align" },
+    { name: "Orbit Align", url: "/orbit-align" },
     { name: "Star Match", url: "#" },
     { name: "Cosmic Quiz", url: "#" },
     { name: "Planet Hop", url: "#" }
@@ -99,16 +100,11 @@ const Home = () => {
         className="w-72 bg-gray-900 bg-opacity-50 border-r border-gray-800 p-6 flex flex-col z-20"
       >
         <h3 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-          Cosmic Dashboard
+          Galaxia Dashboard
         </h3>
         
         {/* Space Fact of the Day */}
-        <div className="mb-8">
-          <h4 className="text-sm font-semibold mb-2 text-gray-400">Did You Know?</h4>
-          <div className="bg-gray-800 bg-opacity-50 p-4 rounded-lg border border-gray-700">
-            <p className="text-sm">{spaceFacts[Math.floor(Math.random() * spaceFacts.length)]}</p>
-          </div>
-        </div>
+        <SpaceFacts/>
         
         {/* Recent Cosmic Events */}
         <div className="mb-8">

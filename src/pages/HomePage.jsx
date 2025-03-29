@@ -7,7 +7,7 @@ import Launchpads from "../components/LaunchPads/Launchpads";
 import { ShootingStars } from "../components/ui/shooting-stars";
 import { StarsBackground } from "../components/ui/stars-background";
 import SpaceXPayloads from "../components/Payloads/SpaceXPayloads";
-import Home from "../components/Home";
+import Home from "../components/Home/Home";
 
 const HomePage = () => {
   return (

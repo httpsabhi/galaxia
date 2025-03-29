@@ -1,0 +1,58 @@
+# Byte-compiled and cached files
+__pycache__/
+*.pyc
+*.py[cod]
+*.so
+*.pyd
+*.pyo
+*.pdb
+
+# Virtual environment
+venv/
+env/
+
+# Logs and temporary files
+*.log
+logs/
+*.out
+*.pid
+*.swp
+
+# Environment variables and secrets
+.env
+.env.local
+.env.*.backup
+
+# Python package manager
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Database files
+*.sqlite3
+*.db
+*.sqlite
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+
+# VS Code settings
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs (PyCharm)
+.idea/
+
+# MacOS
+.DS_Store
+
+# FastAPI-specific
+instance/

@@ -6,8 +6,8 @@ import RecentEvents from "./RecentEvents";
 const Home = () => {
   const [activeSupernova, setActiveSupernova] = useState(null);
   const [showGameZone, setShowGameZone] = useState(false);
+  const [hoveredStar, setHoveredStar] = useState(null);
   
-
   // Star generation
   const generateStars = (count, config = {}) => {
     return Array.from({ length: count }).map((_, i) => ({
@@ -76,12 +76,121 @@ const Home = () => {
     }
   };
 
-  // Game Zone games
+  // Game Zone games with unique icons
   const games = [
-    { name: "Orbit Align", url: "/orbit-align" },
-    { name: "Star Match", url: "/star-match" },
-    { name: "Cosmic Quiz", url: "/cosmic-quiz" },
-    { name: "Constellation Connect", url: "#" }
+    { 
+      name: "Orbit Align", 
+      url: "/orbit-align",
+      icon: (
+        <motion.div 
+          className="relative w-full h-full"
+          animate={{
+            rotate: 360
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        >
+          <div className="absolute w-4 h-4 bg-blue-400 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+          <div className="absolute w-2 h-2 bg-yellow-300 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+          <div className="absolute w-12 h-1 bg-transparent border border-blue-300 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        </motion.div>
+      ),
+      bg: "bg-gradient-to-br from-blue-800 to-indigo-900"
+    },
+    { 
+      name: "Star Match", 
+      url: "/star-match",
+      icon: (
+        <motion.div className="relative w-full h-full">
+          <div className="absolute w-6 h-6 bg-yellow-300 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 h-8 bg-yellow-200 rounded-full top-1/2 left-1/2 origin-bottom"
+              style={{
+                transform: `translate(-50%, -50%) rotate(${i * 72}deg)`,
+                height: `${Math.random() * 10 + 6}px`
+              }}
+              animate={{
+                height: [`${Math.random() * 10 + 6}px`, `${Math.random() * 10 + 12}px`, `${Math.random() * 10 + 6}px`]
+              }}
+              transition={{
+                duration: 2 + Math.random() * 3,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+          ))}
+        </motion.div>
+      ),
+      bg: "bg-gradient-to-br from-purple-800 to-pink-900"
+    },
+    { 
+      name: "Galactic Quiz", 
+      url: "/cosmic-quiz",
+      icon: (
+        <motion.div className="relative w-full h-full flex items-center justify-center">
+          <div className="text-3xl">?</div>
+          <motion.div 
+            className="absolute w-16 h-16 border-2 border-yellow-400 rounded-full"
+            animate={{
+              scale: [1, 1.1, 1],
+              opacity: [0.8, 1, 0.8]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity
+            }}
+          />
+        </motion.div>
+      ),
+      bg: "bg-gradient-to-br from-indigo-800 to-blue-900"
+    },
+    { 
+      name: "Constellation Detector", 
+      url: "#",
+      icon: (
+        <motion.svg 
+          viewBox="0 0 24 24" 
+          className="w-10 h-10"
+          fill="none" 
+          stroke="currentColor"
+        >
+          {[...Array(5)].map((_, i) => (
+            <motion.circle
+              key={i}
+              cx={Math.random() * 15 + 5}
+              cy={Math.random() * 15 + 5}
+              r="1"
+              strokeWidth="1.5"
+              animate={{
+                r: [1, 1.5, 1],
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{
+                duration: 2 + Math.random() * 3,
+                repeat: Infinity,
+                delay: i * 0.3
+              }}
+            />
+          ))}
+          <motion.line 
+            x1="8" y1="8" x2="12" y2="12"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          <motion.line 
+            x1="12" y1="12" x2="16" y2="10"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </motion.svg>
+      ),
+      bg: "bg-gradient-to-br from-gray-800 to-gray-900"
+    }
   ];
 
   return (
@@ -93,11 +202,133 @@ const Home = () => {
         transition={{ duration: 1 }}
         className="w-72 bg-gray-900 bg-opacity-50 border-r border-gray-800 p-6 flex flex-col z-20"
       >
-        <h3 className="text-xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-          Galaxia Overview
-        </h3>
-        
-        {/* Space Fact of the Day */}
+        {/* Enhanced Galactic Navigator */}
+        <motion.div 
+          className="relative w-full h-40 mb-8 rounded-xl overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-blue-900/20 to-black/50 backdrop-blur-sm"></div>
+          
+          {/* Solar System Model */}
+          <motion.div 
+            className="absolute inset-0 flex items-center justify-center"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1, delay: 0.7 }}
+          >
+            <motion.div
+              className="relative w-24 h-24"
+              animate={{
+                rotate: 360
+              }}
+              transition={{
+                duration: 30,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {/* Sun */}
+              <motion.div
+                className="absolute w-8 h-8 bg-yellow-300 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                animate={{
+                  scale: [1, 1.05, 1],
+                  boxShadow: [
+                    "0 0 20px 5px rgba(255, 200, 50, 0.5)",
+                    "0 0 30px 10px rgba(255, 200, 50, 0.7)",
+                    "0 0 20px 5px rgba(255, 200, 50, 0.5)"
+                  ]
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity
+                }}
+              />
+              
+              {/* Planets */}
+              {[
+                { size: 2, color: "bg-gray-400", distance: 12, duration: 5 },
+                { size: 3, color: "bg-yellow-200", distance: 18, duration: 8 },
+                { size: 2.5, color: "bg-blue-400", distance: 24, duration: 12 },
+                { size: 2, color: "bg-red-400", distance: 30, duration: 20 }
+              ].map((planet, i) => (
+                <motion.div
+                  key={i}
+                  className={`absolute ${planet.color} rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2`}
+                  style={{
+                    width: `${planet.size * 4}px`,
+                    height: `${planet.size * 4}px`,
+                  }}
+                  animate={{
+                    x: Math.cos((i * Math.PI * 2) / 4) * planet.distance,
+                    y: Math.sin((i * Math.PI * 2) / 4) * planet.distance
+                  }}
+                  transition={{
+                    duration: planet.duration,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
+                  {/* Moons for some planets */}
+                  {i > 0 && i < 3 && (
+                    <motion.div
+                      className="absolute bg-gray-200 rounded-full"
+                      style={{
+                        width: `${planet.size}px`,
+                        height: `${planet.size}px`,
+                        top: `${planet.size * 1.5}px`,
+                        left: `${planet.size * 1.5}px`
+                      }}
+                      animate={{
+                        x: Math.cos(i * 2) * planet.size * 2,
+                        y: Math.sin(i * 2) * planet.size * 2
+                      }}
+                      transition={{
+                        duration: planet.duration / 2,
+                        repeat: Infinity,
+                        ease: "linear"
+                      }}
+                    />
+                  )}
+                </motion.div>
+              ))}
+              
+              {/* Asteroid Belt */}
+              <motion.div
+                className="absolute border border-gray-600 rounded-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  width: "48px",
+                  height: "48px"
+                }}
+                animate={{
+                  rotate: 360
+                }}
+                transition={{
+                  duration: 40,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+            </motion.div>
+          </motion.div>
+          
+          {/* Title with better positioning */}
+          <motion.div
+            className="absolute bottom-4 left-0 right-0 text-center"
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 1, duration: 0.5 }}
+          >
+            <motion.div
+              className="w-16 h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent mx-auto mt-1"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 1.2, duration: 0.5 }}
+            />
+          </motion.div>
+        </motion.div>
+
         <SpaceFacts/>
         <RecentEvents />
         
@@ -129,14 +360,17 @@ const Home = () => {
               animate={{
                 opacity: star.twinkle ? 
                   [star.opacity, star.opacity * 0.3, star.opacity] : 
-                  star.opacity
+                  star.opacity,
+                scale: hoveredStar === star.id ? 
+                  [1, 1.2, 1] : 
+                  1
               }}
               transition={{
                 duration: star.twinkle ? Math.random() * 4 + 3 : 0,
                 repeat: star.twinkle ? Infinity : 0,
                 ease: "easeInOut",
               }}
-              className="absolute rounded-full"
+              className="absolute rounded-full cursor-pointer"
               style={{
                 left: `${star.x}%`,
                 top: `${star.y}%`,
@@ -145,6 +379,8 @@ const Home = () => {
                 background: star.color,
                 boxShadow: `0 0 ${star.size * 3}px ${star.size}px ${star.color.replace('1)', '0.3)')}`,
               }}
+              onMouseEnter={() => setHoveredStar(star.id)}
+              onMouseLeave={() => setHoveredStar(null)}
             />
           ))}
         </div>
@@ -195,8 +431,23 @@ const Home = () => {
             <motion.div
               key={`${constellation.name}-star-${i}`}
               initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: star.opacity, scale: 1 }}
-              transition={{ duration: 1, delay: i * 0.05 }}
+              animate={{ 
+                opacity: star.opacity, 
+                scale: 1,
+                boxShadow: activeSupernova === star.name ? 
+                  [`0 0 ${star.size * 6}px ${star.size * 3}px ${(star.color || "rgba(173, 216, 230, 0.4)").replace('1)', '0.4)')}`,
+                   `0 0 ${star.size * 15}px ${star.size * 8}px ${(star.color || "rgba(255, 255, 200, 0.8)").replace('1)', '0.8)')}`,
+                   `0 0 ${star.size * 6}px ${star.size * 3}px ${(star.color || "rgba(173, 216, 230, 0.4)").replace('1)', '0.4)')}`] :
+                  `0 0 ${star.size * 6}px ${star.size * 3}px ${(star.color || "rgba(173, 216, 230, 0.4)").replace('1)', '0.4)')}`
+              }}
+              transition={{ 
+                duration: 1, 
+                delay: i * 0.05,
+                boxShadow: {
+                  duration: activeSupernova === star.name ? 3 : 0,
+                  repeat: activeSupernova === star.name ? Infinity : 0
+                }
+              }}
               className="absolute rounded-full cursor-pointer"
               style={{
                 left: `${star.x}%`,
@@ -204,15 +455,33 @@ const Home = () => {
                 width: `${star.size * 2}px`,
                 height: `${star.size * 2}px`,
                 background: star.color || "white",
-                boxShadow: `0 0 ${star.size * 6}px ${star.size * 3}px ${(star.color || "rgba(173, 216, 230, 0.4)").replace('1)', '0.4)')}`,
+                zIndex: activeSupernova === star.name ? 10 : 1
               }}
-              onMouseEnter={() => star.name && setActiveSupernova(star.name)}
-              onMouseLeave={() => star.name && setActiveSupernova(null)}
+              onMouseEnter={() => {
+                if (star.name) {
+                  setActiveSupernova(star.name);
+                  setHoveredStar(star.id);
+                }
+              }}
+              onMouseLeave={() => {
+                if (star.name) {
+                  setActiveSupernova(null);
+                  setHoveredStar(null);
+                }
+              }}
             >
               {star.name && (
                 <motion.div
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: activeSupernova === star.name ? 1 : 0 }}
+                  animate={{ 
+                    opacity: activeSupernova === star.name ? 1 : 0,
+                    y: activeSupernova === star.name ? [-5, 0, -5] : 0
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: activeSupernova === star.name ? Infinity : 0,
+                    ease: "easeInOut"
+                  }}
                   className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs font-light whitespace-nowrap"
                 >
                   {star.name}
@@ -249,7 +518,7 @@ const Home = () => {
             style={{ width: "80%" }}
           >
             <h3 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-              Cosmic Game Zone
+              Galaxia Game Zone
             </h3>
             <div className="grid grid-cols-2 gap-6">
               {games.map((game, i) => (
@@ -258,10 +527,10 @@ const Home = () => {
                   href={game.url}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-4 flex flex-col items-center justify-center shadow-lg border border-gray-700 hover:border-purple-500 transition-all"
+                  className={`${game.bg} rounded-xl p-4 flex flex-col items-center justify-center shadow-lg border border-gray-700 hover:border-purple-500 transition-all`}
                 >
-                  <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mb-3">
-                    <span className="text-2xl">{i+1}</span>
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mb-3">
+                    {game.icon}
                   </div>
                   <h4 className="text-lg font-medium">{game.name}</h4>
                 </motion.a>
@@ -276,58 +545,140 @@ const Home = () => {
           </motion.div>
         )}
 
-        {/* Supernova Effect */}
+        {/* Enhanced Supernova Effect */}
         {activeSupernova && (
           <>
+            {/* Core Glow */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ 
-                opacity: [0.9, 0],
-                scale: [1, 3],
+                opacity: [0, 0.9, 0],
+                scale: [0.5, 1.5, 3],
               }}
-              transition={{ duration: 3 }}
+              transition={{ 
+                duration: 3,
+                ease: [0.16, 1, 0.3, 1]
+              }}
               className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-br from-yellow-300 to-orange-600 blur-3xl"
             />
             
-            {/* Supernova Particles */}
-            {[...Array(30)].map((_, i) => (
+            {/* Pulsing Core */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ 
+                opacity: [0, 0.8, 0],
+                scale: [0.5, 1, 2],
+              }}
+              transition={{ 
+                duration: 3,
+                delay: 0.2,
+                ease: [0.16, 1, 0.3, 1]
+              }}
+              className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-br from-yellow-200 to-orange-500 blur-xl"
+            />
+            
+            {/* Enhanced Supernova Particles */}
+            {[...Array(60)].map((_, i) => {
+              const angle = Math.random() * Math.PI * 2;
+              const distance = Math.random() * 100 + 50;
+              const size = Math.random() * 15 + 5;
+              const duration = 2 + Math.random() * 3;
+              const delay = Math.random() * 0.5;
+              const color = `rgba(255, ${Math.floor(150 + Math.random() * 100)}, ${Math.floor(50 + Math.random() * 100)}, 1)`;
+              
+              return (
+                <motion.div
+                  key={`particle-${i}`}
+                  initial={{ 
+                    x: "50%",
+                    y: "50%",
+                    opacity: 0,
+                    scale: 0
+                  }}
+                  animate={{ 
+                    x: `calc(50% + ${Math.cos(angle) * distance}px)`,
+                    y: `calc(50% + ${Math.sin(angle) * distance}px)`,
+                    opacity: [0, 1, 0],
+                    scale: [0, Math.random() * 1.5 + 0.5, 0]
+                  }}
+                  transition={{ 
+                    duration: duration,
+                    delay: delay,
+                    ease: "easeOut"
+                  }}
+                  className="absolute rounded-full pointer-events-none"
+                  style={{
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    background: color,
+                    boxShadow: `0 0 ${size * 2}px ${size / 2}px ${color.replace('1)', '0.7)')}`,
+                    filter: `blur(${Math.random() > 0.7 ? '1px' : '0px'})`,
+                    zIndex: 5
+                  }}
+                />
+              );
+            })}
+            
+            {/* Shockwave Rings */}
+            {[0, 1, 2].map((i) => (
               <motion.div
-                key={`particle-${i}`}
-                initial={{ 
-                  x: "50%",
-                  y: "50%",
-                  opacity: 1,
-                  scale: 0
-                }}
+                key={`shockwave-${i}`}
+                initial={{ opacity: 0, scale: 0 }}
                 animate={{ 
-                  x: `${50 + (Math.random() * 100 - 50)}%`,
-                  y: `${50 + (Math.random() * 100 - 50)}%`,
-                  opacity: [1, 0],
-                  scale: [0, Math.random() * 2 + 1]
+                  opacity: [0.6, 0],
+                  scale: [1, 4 + i * 2]
                 }}
                 transition={{ 
-                  duration: 2,
-                  delay: Math.random() * 0.5
+                  duration: 3,
+                  delay: i * 0.3,
+                  ease: "easeOut"
                 }}
-                className="absolute rounded-full bg-white"
+                className="absolute border border-yellow-300 rounded-full w-[500px] h-[500px] pointer-events-none"
                 style={{
-                  width: `${Math.random() * 10 + 5}px`,
-                  height: `${Math.random() * 10 + 5}px`,
-                  boxShadow: `0 0 ${Math.random() * 20 + 10}px ${Math.random() * 10 + 5}px rgba(255, 255, 255, 0.7)`,
+                  zIndex: 4 - i
                 }}
               />
             ))}
             
-            {/* Supernova Shockwave */}
+            {/* Ambient Glow */}
             <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ 
-                opacity: [0.8, 0],
-                scale: [1, 4]
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0.3, 0] }}
               transition={{ duration: 3 }}
-              className="absolute border-2 border-yellow-300 rounded-full w-[500px] h-[500px]"
+              className="absolute inset-0 bg-gradient-to-br from-yellow-200/20 to-orange-500/10 pointer-events-none"
             />
+            
+            {/* Background Star Reaction */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.5, 0] }}
+              transition={{ duration: 3 }}
+              className="absolute inset-0 pointer-events-none"
+            >
+              {stars.slice(0, 100).map((star) => (
+                <motion.div
+                  key={`react-star-${star.id}`}
+                  className="absolute rounded-full"
+                  style={{
+                    left: `${star.x}%`,
+                    top: `${star.y}%`,
+                    width: `${star.size * 2}px`,
+                    height: `${star.size * 2}px`,
+                    background: star.color,
+                    boxShadow: `0 0 ${star.size * 6}px ${star.size * 3}px ${star.color.replace('1)', '0.4)')}`,
+                  }}
+                  animate={{
+                    opacity: [star.opacity, star.opacity * 2, star.opacity],
+                    scale: [1, 1.5, 1]
+                  }}
+                  transition={{
+                    duration: 3,
+                    delay: Math.random() * 1,
+                    ease: "easeInOut"
+                  }}
+                />
+              ))}
+            </motion.div>
           </>
         )}
 
@@ -405,10 +756,11 @@ const Home = () => {
               repeat: Infinity,
               repeatDelay: Math.random() * 10 + 5
             }}
-            className="absolute w-2 h-2 bg-white rounded-full"
+            className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
             style={{
               boxShadow: "0 0 10px 5px rgba(255, 255, 255, 0.7)",
-              transform: "rotate(-45deg)"
+              transform: "rotate(-45deg)",
+              zIndex: 10
             }}
           >
             <div className="absolute -left-20 top-1/2 transform -translate-y-1/2 w-20 h-1 bg-gradient-to-r from-transparent to-white" />

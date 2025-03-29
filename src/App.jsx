@@ -8,6 +8,7 @@ import AllPayloads from "./pages/AllPayloads";
 import Layout from "./components/Layout";
 import ArrangePlanetsGame from "./components/games/ArrangePlanetsGame";
 import CosmicQuiz from "./components/games/CosmicQuiz";
+import StarMatch from './components/games/StarMatch';
 import CMEPage from "./pages/CMEPage";
 import IssTrackerPage from "./pages/IssTrackerPage";
 
@@ -22,6 +23,7 @@ function App() {
           <Route path="/all-payloads" element={<AllPayloads />} />
           <Route path="/orbit-align" element={<ArrangePlanetsGame />} />
           <Route path="/cosmic-quiz" element={<CosmicQuiz />} />
+          <Route path="/star-match" element={<StarMatch />} /> 
           <Route path="/solar-surge" element={<CMEPage />} />
           <Route path="/iss-tracker" element={<IssTrackerPage />} />
         </Route>

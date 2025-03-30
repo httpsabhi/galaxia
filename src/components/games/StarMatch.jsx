@@ -36,7 +36,7 @@ export default function StarMatch() {
   }, [matched, playSuccess]);
 
   const handleCardClick = (id) => {
-    if (flipped.length === 2 || flipped.includes(id) || matched.includes(id % starTypes.length)) return;
+    if (flipped.length === 2 || flipped.includes(id) || matched.includes(cards.find(card => card.uniqueId === id)?.id)) return;
 
     const newFlipped = [...flipped, id];
     setFlipped(newFlipped);
@@ -48,8 +48,8 @@ export default function StarMatch() {
       const secondCard = cards.find(card => card.uniqueId === secondId);
 
       if (firstCard.id === secondCard.id) {
-        setMatched([...matched, firstCard.id]);
-        setFlipped([]);
+        setMatched((prev) => [...prev, firstCard.id]);
+        setTimeout(() => setFlipped([]), 300);  
       } else {
         setTimeout(() => setFlipped([]), 1000);
       }

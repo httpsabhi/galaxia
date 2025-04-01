@@ -11,7 +11,7 @@ export default function SpaceFacts() {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const prompt =
-    "Generate a unique and fascinating one-line space fact every time, including fun, surprising, and mind-blowing details about the universe";
+    "Generate a mind-blowing, fun, and surprising space not more than 40 words fact that has never been mentioned before. The fact should be unique, covering diverse topics such as exoplanets, black holes, cosmic phenomena, astronaut experiences, space exploration, time dilation, or quantum physics in space. Avoid repetition and ensure each fact is fresh, scientifically accurate, and awe-inspiring." ;
 
   const fetchSpaceFact = async () => {
     try {

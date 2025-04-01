@@ -19,7 +19,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="/sky-patrol" element={<NasaNeoFeedPage />} />
-          <Route path="/cosmic-explorer" element={<SpaceExploration />} />
+          <Route path="/solar-system" element={<SpaceExploration />} />
           <Route path="/spacemission" element={<SpaceMission />} />
           <Route path="/all-payloads" element={<AllPayloads />} />
           <Route path="/orbit-align" element={<ArrangePlanetsGame />} />

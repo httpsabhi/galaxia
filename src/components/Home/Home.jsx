@@ -1,164 +1,76 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import SpaceFacts from "./SpaceFacts";
 import RecentEvents from "./RecentEvents";
 import { games } from "./games";
+import { getConstellations } from "./constellations";
 
 const Home = () => {
   const [activeSupernova, setActiveSupernova] = useState(null);
   const [showGameZone, setShowGameZone] = useState(false);
   const [hoveredStar, setHoveredStar] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Star generation
+  useEffect(() => {
+    // Check if mobile device
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkIfMobile();
+    window.addEventListener("resize", checkIfMobile);
+    return () => window.removeEventListener("resize", checkIfMobile);
+  }, []);
+
+  const constellations = getConstellations(isMobile);
+
+  // Simplified star generation for mobile
   const generateStars = (count, config = {}) => {
     return Array.from({ length: count }).map((_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size:
-        (Math.random() * (config.maxSize || 3) + (config.minSize || 1)) *
-        (config.sizeMultiplier || 1),
-      opacity:
-        (Math.random() * (config.maxOpacity || 0.5) +
-          (config.minOpacity || 0.5)) *
-        (config.opacityMultiplier || 1),
+      size: isMobile
+        ? (Math.random() * 2 + 0.5) * (config.sizeMultiplier || 1)
+        : (Math.random() * (config.maxSize || 3) + (config.minSize || 1)) *
+          (config.sizeMultiplier || 1),
+      opacity: isMobile
+        ? (Math.random() * 0.3 + 0.3) * (config.opacityMultiplier || 1)
+        : (Math.random() * (config.maxOpacity || 0.5) +
+            (config.minOpacity || 0.5)) *
+          (config.opacityMultiplier || 1),
       color: config.color || "white",
-      twinkle: config.twinkle !== false,
+      twinkle: isMobile ? false : config.twinkle !== false, // Disable twinkle on mobile
     }));
   };
 
-  // Background stars
-  const stars = generateStars(400, {
+  // Reduced number of stars on mobile
+  const stars = generateStars(isMobile ? 150 : 400, {
     maxSize: 2,
     minOpacity: 0.3,
     maxOpacity: 0.7,
   });
 
-  // Constellations
-  const constellations = {
-    orion: {
-      name: "Orion",
-      stars: [
-        {
-          x: 20,
-          y: 25,
-          size: 3.5,
-          opacity: 1,
-          name: "Betelgeuse",
-          color: "rgba(255, 100, 100, 1)",
-        },
-        { x: 20, y: 40, size: 2.8, opacity: 0.9 },
-        { x: 30, y: 30, size: 3.2, opacity: 0.95 },
-        { x: 30, y: 45, size: 2.5, opacity: 0.85 },
-        { x: 40, y: 35, size: 3, opacity: 0.9 },
-        {
-          x: 40,
-          y: 20,
-          size: 3.5,
-          opacity: 1,
-          name: "Rigel",
-          color: "rgba(100, 150, 255, 1)",
-        },
-      ],
-      connections: [
-        [0, 1],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-        [4, 5],
-        [2, 5],
-      ],
-    },
-    ursaMajor: {
-      name: "Ursa Major",
-      stars: [
-        { x: 65, y: 15, size: 3, opacity: 0.95 },
-        { x: 70, y: 20, size: 2.5, opacity: 0.85 },
-        { x: 75, y: 25, size: 2.8, opacity: 0.9 },
-        { x: 80, y: 30, size: 3, opacity: 0.95 },
-        { x: 85, y: 35, size: 2.5, opacity: 0.85 },
-        { x: 90, y: 40, size: 3.2, opacity: 1 },
-        {
-          x: 95,
-          y: 45,
-          size: 3.5,
-          opacity: 1,
-          name: "Alkaid",
-          color: "rgba(255, 255, 200, 1)",
-        },
-      ],
-      connections: [
-        [0, 1],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-        [4, 5],
-        [5, 6],
-      ],
-    },
-    lyra: {
-      name: "Lyra",
-      stars: [
-        {
-          x: 25,
-          y: 70,
-          size: 3.8,
-          opacity: 1,
-          name: "Vega",
-          color: "rgba(150, 200, 255, 1)",
-        },
-        { x: 20, y: 75, size: 2.5, opacity: 0.8 },
-        { x: 30, y: 75, size: 2.5, opacity: 0.8 },
-        { x: 25, y: 80, size: 2.5, opacity: 0.8 },
-      ],
-      connections: [
-        [0, 1],
-        [0, 2],
-        [0, 3],
-        [1, 2],
-        [2, 3],
-        [3, 1],
-      ],
-    },
-    scorpius: {
-      name: "Scorpius",
-      stars: [
-        {
-          x: 70,
-          y: 70,
-          size: 3.5,
-          opacity: 1,
-          name: "Antares",
-          color: "rgba(255, 150, 100, 1)",
-        },
-        { x: 75, y: 65, size: 2.5, opacity: 0.8 },
-        { x: 80, y: 60, size: 2.5, opacity: 0.8 },
-        { x: 85, y: 55, size: 2.5, opacity: 0.8 },
-        { x: 90, y: 50, size: 2.5, opacity: 0.8 },
-        { x: 85, y: 75, size: 2.5, opacity: 0.8 },
-        { x: 80, y: 80, size: 2.5, opacity: 0.8 },
-      ],
-      connections: [
-        [0, 1],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-        [0, 5],
-        [5, 6],
-      ],
-    },
+  // Disable supernova effect on mobile
+  const handleStarInteraction = (star) => {
+    if (isMobile) return;
+    if (star.name) {
+      setActiveSupernova(star.name);
+      setHoveredStar(star.id);
+    }
   };
 
   return (
     <div className="relative h-screen w-full bg-black overflow-hidden flex text-white">
-      {/* Sidebar with cosmic features */}
+      {/* Sidebar - Hidden on mobile */}
       <motion.div
-        initial={{ x: -300 }}
+        initial={{ x: isMobile ? -300 : 0 }}
         animate={{ x: 0 }}
         transition={{ duration: 1 }}
-        className="w-72 bg-gray-900 bg-opacity-50 border-r border-gray-800 p-6 flex flex-col z-20"
+        className={`${
+          isMobile ? "hidden" : "w-72"
+        } bg-gray-900 bg-opacity-50 border-r border-gray-800 p-6 flex flex-col z-20`}
       >
-        {/* Enhanced Galactic Navigator */}
         <motion.div
           className="relative w-full h-40 mb-8 rounded-xl overflow-hidden"
           initial={{ opacity: 0 }}
@@ -284,10 +196,8 @@ const Home = () => {
             />
           </motion.div>
         </motion.div>
-
         <SpaceFacts />
         <RecentEvents />
-
         {/* Quick Links */}
         <div>
           <h4 className="text-sm font-semibold mb-2 text-gray-400">
@@ -324,7 +234,7 @@ const Home = () => {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center relative">
-        {/* Dynamic Starfield */}
+        {/* Dynamic Starfield - simplified for mobile */}
         <div className="absolute inset-0 overflow-hidden">
           {stars.map((star) => (
             <motion.div
@@ -341,24 +251,25 @@ const Home = () => {
                 repeat: star.twinkle ? Infinity : 0,
                 ease: "easeInOut",
               }}
-              className="absolute rounded-full cursor-pointer"
+              className="absolute rounded-full"
               style={{
                 left: `${star.x}%`,
                 top: `${star.y}%`,
                 width: `${star.size}px`,
                 height: `${star.size}px`,
                 background: star.color,
-                boxShadow: `0 0 ${star.size * 3}px ${
-                  star.size
-                }px ${star.color.replace("1)", "0.3)")}`,
+                boxShadow: isMobile
+                  ? "none"
+                  : `0 0 ${star.size * 3}px ${star.size}px ${star.color.replace(
+                      "1)",
+                      "0.3)"
+                    )}`,
               }}
-              onMouseEnter={() => setHoveredStar(star.id)}
-              onMouseLeave={() => setHoveredStar(null)}
             />
           ))}
         </div>
 
-        {/* Galactic Core */}
+        {/* Simplified Galactic Core for mobile */}
         <motion.div
           initial={{ scale: 0.8, opacity: 0.7 }}
           animate={{
@@ -370,35 +281,39 @@ const Home = () => {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute w-[600px] h-[600px] rounded-full bg-gradient-to-br from-purple-900 via-blue-900 to-black opacity-70 blur-xl"
+          className={`absolute ${
+            isMobile ? "w-[300px] h-[300px]" : "w-[600px] h-[600px]"
+          } rounded-full bg-gradient-to-br from-purple-900 via-blue-900 to-black opacity-70 blur-xl`}
         />
 
-        {/* Constellation Connections */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none">
-          {Object.values(constellations).flatMap((constellation) =>
-            constellation.connections.map(([start, end], i) => {
-              const startStar = constellation.stars[start];
-              const endStar = constellation.stars[end];
-              return (
-                <motion.line
-                  key={`${constellation.name}-line-${i}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.4 }}
-                  transition={{ duration: 1, delay: i * 0.1 }}
-                  x1={`${startStar.x}%`}
-                  y1={`${startStar.y}%`}
-                  x2={`${endStar.x}%`}
-                  y2={`${endStar.y}%`}
-                  stroke="rgba(173, 216, 230, 0.6)"
-                  strokeWidth="1.5"
-                  strokeDasharray="5 3"
-                />
-              );
-            })
-          )}
-        </svg>
+        {/* Constellation Connections - simplified for mobile */}
+        {!isMobile && (
+          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            {Object.values(constellations).flatMap((constellation) =>
+              constellation.connections.map(([start, end], i) => {
+                const startStar = constellation.stars[start];
+                const endStar = constellation.stars[end];
+                return (
+                  <motion.line
+                    key={`${constellation.name}-line-${i}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.4 }}
+                    transition={{ duration: 1, delay: i * 0.1 }}
+                    x1={`${startStar.x}%`}
+                    y1={`${startStar.y}%`}
+                    x2={`${endStar.x}%`}
+                    y2={`${endStar.y}%`}
+                    stroke="rgba(173, 216, 230, 0.6)"
+                    strokeWidth="1.5"
+                    strokeDasharray="5 3"
+                  />
+                );
+              })
+            )}
+          </svg>
+        )}
 
-        {/* Constellation Stars */}
+        {/* Constellation Stars - simplified for mobile */}
         {Object.values(constellations).flatMap((constellation) =>
           constellation.stars.map((star, i) => (
             <motion.div
@@ -408,7 +323,7 @@ const Home = () => {
                 opacity: star.opacity,
                 scale: 1,
                 boxShadow:
-                  activeSupernova === star.name
+                  !isMobile && activeSupernova === star.name
                     ? [
                         `0 0 ${star.size * 6}px ${star.size * 3}px ${(
                           star.color || "rgba(173, 216, 230, 0.4)"
@@ -420,41 +335,40 @@ const Home = () => {
                           star.color || "rgba(173, 216, 230, 0.4)"
                         ).replace("1)", "0.4)")}`,
                       ]
-                    : `0 0 ${star.size * 6}px ${star.size * 3}px ${(
-                        star.color || "rgba(173, 216, 230, 0.4)"
-                      ).replace("1)", "0.4)")}`,
+                    : `0 0 ${star.size * (isMobile ? 3 : 6)}px ${
+                        star.size * (isMobile ? 1.5 : 3)
+                      }px ${(star.color || "rgba(173, 216, 230, 0.4)").replace(
+                        "1)",
+                        "0.4)"
+                      )}`,
               }}
               transition={{
                 duration: 1,
                 delay: i * 0.05,
                 boxShadow: {
-                  duration: activeSupernova === star.name ? 3 : 0,
-                  repeat: activeSupernova === star.name ? Infinity : 0,
+                  duration: !isMobile && activeSupernova === star.name ? 3 : 0,
+                  repeat:
+                    !isMobile && activeSupernova === star.name ? Infinity : 0,
                 },
               }}
-              className="absolute rounded-full cursor-pointer"
+              className="absolute rounded-full"
               style={{
                 left: `${star.x}%`,
                 top: `${star.y}%`,
-                width: `${star.size * 2}px`,
-                height: `${star.size * 2}px`,
+                width: `${star.size * (isMobile ? 1.5 : 2)}px`,
+                height: `${star.size * (isMobile ? 1.5 : 2)}px`,
                 background: star.color || "white",
-                zIndex: activeSupernova === star.name ? 10 : 1,
+                zIndex: !isMobile && activeSupernova === star.name ? 10 : 1,
               }}
-              onMouseEnter={() => {
-                if (star.name) {
-                  setActiveSupernova(star.name);
-                  setHoveredStar(star.id);
-                }
-              }}
+              onMouseEnter={() => handleStarInteraction(star)}
               onMouseLeave={() => {
-                if (star.name) {
+                if (!isMobile && star.name) {
                   setActiveSupernova(null);
                   setHoveredStar(null);
                 }
               }}
             >
-              {star.name && (
+              {!isMobile && star.name && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{
@@ -475,64 +389,54 @@ const Home = () => {
           ))
         )}
 
-        {/* Constellation Labels */}
-        {Object.values(constellations).map((constellation) => (
-          <motion.div
-            key={`${constellation.name}-label`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.7 }}
-            transition={{ delay: 1 }}
-            className="absolute text-sm font-light italic"
-            style={{
-              left: `${Math.min(...constellation.stars.map((s) => s.x))}%`,
-              top: `${Math.min(...constellation.stars.map((s) => s.y)) - 5}%`,
-            }}
-          >
-            {constellation.name}
-          </motion.div>
-        ))}
-
-        {/* Game Zone Panel */}
-        {showGameZone && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 50 }}
-            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 bg-opacity-80 backdrop-blur-lg rounded-2xl p-6 shadow-2xl z-50"
-            style={{ width: "80%" }}
-          >
-            <h3 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-              Galaxia Game Zone
-            </h3>
-            <div className="grid grid-cols-2 gap-6">
-              {games.map((game, i) => (
-                <motion.a
-                  key={i}
-                  href={game.url}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`${game.bg} rounded-xl p-4 flex flex-col items-center justify-center shadow-lg border border-gray-700 hover:border-purple-500 transition-all`}
-                >
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mb-3">
-                    {game.icon}
-                  </div>
-                  <h4 className="text-lg font-medium">{game.name}</h4>
-                </motion.a>
-              ))}
-            </div>
-            <button
-              onClick={() => setShowGameZone(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white"
+        {/* Game Zone Panel - modified for mobile */}
+        <AnimatePresence>
+          {showGameZone && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 50 }}
+              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 bg-gray-900 bg-opacity-90 backdrop-blur-lg rounded-2xl p-4 shadow-2xl z-50"
+              style={{ width: isMobile ? "90%" : "80%" }}
             >
-              ✕
-            </button>
-          </motion.div>
-        )}
+              <h3 className="text-xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+                Galaxia Game Zone
+              </h3>
+              <div
+                className={`grid ${
+                  isMobile ? "grid-cols-1 gap-3" : "grid-cols-2 gap-6"
+                }`}
+              >
+                {games.map((game, i) => (
+                  <motion.a
+                    key={i}
+                    href={game.url}
+                    whileHover={{ scale: isMobile ? 1 : 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`${game.bg} rounded-lg p-3 flex flex-col items-center justify-center shadow-lg border border-gray-700 hover:border-purple-500 transition-all`}
+                  >
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      {game.icon}
+                    </div>
+                    <h4 className="text-md font-medium text-center">
+                      {game.name}
+                    </h4>
+                  </motion.a>
+                ))}
+              </div>
+              <button
+                onClick={() => setShowGameZone(false)}
+                className="absolute top-2 right-2 text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Enhanced Supernova Effect */}
-        {activeSupernova && (
+        {/* Supernova Effect - disabled on mobile */}
+        {!isMobile && activeSupernova && (
           <>
-            {/* Core Glow */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{
@@ -546,7 +450,6 @@ const Home = () => {
               className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-br from-yellow-300 to-orange-600 blur-3xl"
             />
 
-            {/* Pulsing Core */}
             <motion.div
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{
@@ -561,7 +464,7 @@ const Home = () => {
               className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-br from-yellow-200 to-orange-500 blur-xl"
             />
 
-            {/* Enhanced Supernova Particles */}
+            {/* Supernova Particles */}
             {[...Array(60)].map((_, i) => {
               const angle = Math.random() * Math.PI * 2;
               const distance = Math.random() * 100 + 50;
@@ -575,23 +478,14 @@ const Home = () => {
               return (
                 <motion.div
                   key={`particle-${i}`}
-                  initial={{
-                    x: "50%",
-                    y: "50%",
-                    opacity: 0,
-                    scale: 0,
-                  }}
+                  initial={{ x: "50%", y: "50%", opacity: 0, scale: 0 }}
                   animate={{
                     x: `calc(50% + ${Math.cos(angle) * distance}px)`,
                     y: `calc(50% + ${Math.sin(angle) * distance}px)`,
                     opacity: [0, 1, 0],
                     scale: [0, Math.random() * 1.5 + 0.5, 0],
                   }}
-                  transition={{
-                    duration: duration,
-                    delay: delay,
-                    ease: "easeOut",
-                  }}
+                  transition={{ duration, delay, ease: "easeOut" }}
                   className="absolute rounded-full pointer-events-none"
                   style={{
                     width: `${size}px`,
@@ -613,19 +507,10 @@ const Home = () => {
               <motion.div
                 key={`shockwave-${i}`}
                 initial={{ opacity: 0, scale: 0 }}
-                animate={{
-                  opacity: [0.6, 0],
-                  scale: [1, 4 + i * 2],
-                }}
-                transition={{
-                  duration: 3,
-                  delay: i * 0.3,
-                  ease: "easeOut",
-                }}
+                animate={{ opacity: [0.6, 0], scale: [1, 4 + i * 2] }}
+                transition={{ duration: 3, delay: i * 0.3, ease: "easeOut" }}
                 className="absolute border border-yellow-300 rounded-full w-[500px] h-[500px] pointer-events-none"
-                style={{
-                  zIndex: 4 - i,
-                }}
+                style={{ zIndex: 4 - i }}
               />
             ))}
 
@@ -673,14 +558,16 @@ const Home = () => {
           </>
         )}
 
-        {/* Main Title */}
+        {/* Main Title - adjusted for mobile */}
         <motion.div
-          className="text-center z-10"
+          className="text-center z-10 px-4"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5 }}
         >
-          <h1 className="text-7xl font-bold mb-4">
+          <h1
+            className={`${isMobile ? "text-5xl" : "text-7xl"} font-bold mb-4`}
+          >
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-400 to-pink-300">
               Galaxia
             </span>
@@ -689,74 +576,83 @@ const Home = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.8 }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="text-2xl text-gray-300 mb-12 max-w-2xl"
+            className={`${
+              isMobile ? "text-lg" : "text-2xl"
+            } text-gray-300 mb-8 ${isMobile ? "px-4" : "max-w-2xl"}`}
           >
             Journey through the wonders of our universe
           </motion.p>
         </motion.div>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - adjusted for mobile */}
         <motion.div
-          className="flex gap-6 z-10"
+          className={`flex ${
+            isMobile ? "flex-col gap-4" : "gap-6"
+          } z-10 px-4 w-full justify-center ${isMobile ? "max-w-xs" : ""}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
         >
           <motion.a
-            href="http://localhost:5173/cosmic-explorer"
+            href="/solar-system"
             whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 25px rgba(99, 102, 241, 0.8)",
+              scale: isMobile ? 1 : 1.05,
+              boxShadow: isMobile ? "none" : "0 0 25px rgba(99, 102, 241, 0.8)",
             }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 text-xl font-medium bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg transition-all"
+            className={`${isMobile ? "w-full" : "px-10"} py-4 ${
+              isMobile ? "text-lg" : "text-xl"
+            } font-medium bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl shadow-lg transition-all text-center`}
           >
             Solar System
           </motion.a>
 
           <motion.button
             whileHover={{
-              scale: 1.05,
-              boxShadow: "0 0 25px rgba(236, 72, 153, 0.8)",
+              scale: isMobile ? 1 : 1.05,
+              boxShadow: isMobile ? "none" : "0 0 25px rgba(236, 72, 153, 0.8)",
             }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 text-xl font-medium bg-gradient-to-r from-pink-600 to-rose-600 rounded-xl shadow-lg transition-all"
+            className={`${isMobile ? "w-full" : "px-10"} py-4 ${
+              isMobile ? "text-lg" : "text-xl"
+            } font-medium bg-gradient-to-r from-pink-600 to-rose-600 rounded-xl shadow-lg transition-all`}
             onClick={() => setShowGameZone(true)}
           >
             Game Zone
           </motion.button>
         </motion.div>
 
-        {/* Shooting Stars */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={`shooting-${i}`}
-            initial={{
-              x: `${Math.random() * 100 + 100}%`,
-              y: `${Math.random() * 100}%`,
-              opacity: 0,
-            }}
-            animate={{
-              x: `${Math.random() * -100 - 100}%`,
-              y: `${Math.random() * 100 + 100}%`,
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: Math.random() * 2 + 1,
-              delay: Math.random() * 5,
-              repeat: Infinity,
-              repeatDelay: Math.random() * 10 + 5,
-            }}
-            className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
-            style={{
-              boxShadow: "0 0 10px 5px rgba(255, 255, 255, 0.7)",
-              transform: "rotate(-45deg)",
-              zIndex: 10,
-            }}
-          >
-            <div className="absolute -left-20 top-1/2 transform -translate-y-1/2 w-20 h-1 bg-gradient-to-r from-transparent to-white" />
-          </motion.div>
-        ))}
+        {/* Shooting Stars - disabled on mobile */}
+        {!isMobile &&
+          [...Array(3)].map((_, i) => (
+            <motion.div
+              key={`shooting-${i}`}
+              initial={{
+                x: `${Math.random() * 100 + 100}%`,
+                y: `${Math.random() * 100}%`,
+                opacity: 0,
+              }}
+              animate={{
+                x: `${Math.random() * -100 - 100}%`,
+                y: `${Math.random() * 100 + 100}%`,
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: Math.random() * 2 + 1,
+                delay: Math.random() * 5,
+                repeat: Infinity,
+                repeatDelay: Math.random() * 10 + 5,
+              }}
+              className="absolute w-2 h-2 bg-white rounded-full pointer-events-none"
+              style={{
+                boxShadow: "0 0 10px 5px rgba(255, 255, 255, 0.7)",
+                transform: "rotate(-45deg)",
+                zIndex: 10,
+              }}
+            >
+              <div className="absolute -left-20 top-1/2 transform -translate-y-1/2 w-20 h-1 bg-gradient-to-r from-transparent to-white" />
+            </motion.div>
+          ))}
       </div>
     </div>
   );
